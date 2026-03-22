@@ -76,7 +76,6 @@ flowchart TD
 │   ├── run_pipeline.py
 │   └── quantize.sh
 ├── requirements.txt
-└── llm_quantization_poc.md
 ```
 
 ### Prerequisites
