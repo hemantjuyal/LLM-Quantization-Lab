@@ -1,4 +1,4 @@
-## LLM-Quantization-Lab
+## LLM Quantization Lab
 
 LLM quantization project built around `llama.cpp` + `Ollama` + `GGUF`.
 
@@ -120,7 +120,7 @@ Optional single command bootstrap:
 ./setup/models/register_ollama_models.sh
 ```
 
-#### 3) Run inference (streaming enabled by default)
+#### 3) Run inference
 
 ```bash
 python3 scripts/run_inference.py --prompt "What is LLM quantization ?"
@@ -138,25 +138,12 @@ python3 scripts/benchmark.py
 python3 scripts/evaluate_quality.py
 ```
 
-#### 6) Run full pipeline (re-runs quantize + benchmark + quality + summary)
+#### 6) Optional: Run full pipeline (quantize + benchmark + quality + summary)
 
 ```bash
 python3 scripts/run_pipeline.py
 ```
 
-### Outputs
-
-- Benchmark: `reports/benchmark/benchmark_results.csv|json`
-- Quality: `reports/quality/quality_results.csv|json`
-- Summary: `reports/summary/summary.csv|json`
-- Logs: `reports/logs/llm_quant_YYYYMMDD_HHMMSS.log`
-
-### Logging
-
-- Logging is configured via `config/config.yaml -> logging`
-- Console + file logging are enabled by default
-- Log files are timestamped per run (`file_timestamped: true`)
-- `scripts/*.py` wrappers run with verbose mode by default
 
 ### Notes
 
