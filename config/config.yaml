@@ -1,0 +1,75 @@
+setup:
+  llama_cpp:
+    repo_url: "https://github.com/ggerganov/llama.cpp.git"
+    ref: "master"
+    source_dir: "./third_party/llama.cpp"
+    build_dir: "./third_party/llama.cpp/build"
+  model:
+    ollama_model: "llama3:8b"
+    pull_first: true
+    exported_source_gguf: "./models/raw/llama3-8b-source.gguf"
+
+paths:
+  llama_quantize_bin: "./third_party/llama.cpp/build/bin/llama-quantize"
+  source_gguf: "./models/raw/llama3-8b-source.gguf"
+  quantized_models_dir: "./models/quantized"
+  modelfiles_dir: "./models/modelfiles"
+  benchmark_csv: "./reports/benchmark/benchmark_results.csv"
+  benchmark_json: "./reports/benchmark/benchmark_results.json"
+  quality_csv: "./reports/quality/quality_results.csv"
+  quality_json: "./reports/quality/quality_results.json"
+  summary_csv: "./reports/summary/summary.csv"
+  summary_json: "./reports/summary/summary.json"
+
+quantization:
+  allow_requantize_fallback: true
+  variants:
+    - name: "q8_reference"
+      method: "Q8_0"
+      filename: "llama3-8b-q8_0.gguf"
+      ollama_model: "llama3-q8"
+      modelfile: "./models/modelfiles/Modelfile.llama3-q8"
+    - name: "q4_candidate"
+      method: "Q4_K_M"
+      filename: "llama3-8b-q4_k_m.gguf"
+      ollama_model: "llama3-q4"
+      modelfile: "./models/modelfiles/Modelfile.llama3-q4"
+
+ollama:
+  base_url: "http://localhost:11434"
+  timeout_sec: 360
+  stream: true
+
+benchmark:
+  models:
+    - "llama3-q8"
+    - "llama3-q4"
+  baseline_model: "llama3-q8"
+  candidate_model: "llama3-q4"
+  repeats: 2
+  prompts:
+    - "Explain quantization for large language models in simple terms."
+    - "Write a short Python function that reverses words in a sentence."
+    - "Summarize the benefits and risks of low-bit inference."
+
+quality:
+  reference_model: "llama3-q8"
+  candidate_models:
+    - "llama3-q4"
+  prompts:
+    - "Explain quantization for large language models in simple terms."
+    - "Write a short Python function that reverses words in a sentence."
+    - "Summarize the benefits and risks of low-bit inference."
+
+success_criteria:
+  min_latency_reduction: 0.40
+  min_memory_reduction: 0.50
+  min_quality_score: 0.75
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+  datefmt: "%Y-%m-%d %H:%M:%S"
+  console: true
+  file: "./reports/logs/llm_quant.log"
+  file_timestamped: true
