@@ -13,6 +13,16 @@ This repository helps you run a practical quantization workflow for `llama3:8b`,
 - Measure latency, throughput, memory indicators, and quality drift
 - Produce summary artifacts for decision making
 
+### Architecture Overview
+
+- `Setup Layer`: installs/builds local tooling and prepares source artifacts.
+- `Quantization Layer`: creates target GGUF variants for reference and candidate models.
+- `Serving Layer`: registers and serves models through local Ollama.
+- `Evaluation Layer`: runs inference, benchmark, and quality comparison workflows.
+- `Orchestration Layer`: executes end-to-end pipeline and generates summary pass/fail results.
+- `Reporting Layer`: writes benchmark, quality, summary, and timestamped logs for review.
+
+
 ### System Design
 
 ```mermaid
@@ -42,15 +52,6 @@ flowchart TD
     O --> N
     O --> P[reports summary csv and json]
 ```
-
-### High-Level Architecture
-
-- `Setup Layer`: installs/builds local tooling and prepares source artifacts.
-- `Quantization Layer`: creates target GGUF variants for reference and candidate models.
-- `Serving Layer`: registers and serves models through local Ollama.
-- `Evaluation Layer`: runs inference, benchmark, and quality comparison workflows.
-- `Orchestration Layer`: executes end-to-end pipeline and generates summary pass/fail results.
-- `Reporting Layer`: writes benchmark, quality, summary, and timestamped logs for review.
 
 ### Prerequisites
 
