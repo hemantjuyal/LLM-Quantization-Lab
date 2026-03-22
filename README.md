@@ -43,44 +43,17 @@ flowchart TD
     O --> P[reports summary csv and json]
 ```
 
-### Project
+### High-Level Architecture
 
-```text
-.
-├── config/
-│   └── config.yaml
-├── llm_quant/
-│   ├── cli/                 # command entrypoints
-│   ├── config/              # config loader + path resolution
-│   ├── core/                # benchmark, quantization, quality, ollama client
-│   ├── orchestration/       # end-to-end pipeline
-│   ├── logging_utils.py
-│   └── setup.py             # setup orchestration utilities
-├── models/
-│   ├── raw/
-│   ├── quantized/
-│   └── modelfiles/
-├── reports/
-│   ├── benchmark/
-│   ├── quality/
-│   ├── summary/
-│   └── logs/
-├── setup/
-│   ├── bootstrap/
-│   ├── llama_cpp/
-│   └── models/
-├── scripts/
-│   ├── run_inference.py
-│   ├── benchmark.py
-│   ├── evaluate_quality.py
-│   ├── run_pipeline.py
-│   └── quantize.sh
-├── requirements.txt
-```
+- `Setup Layer`: installs/builds local tooling and prepares source artifacts.
+- `Quantization Layer`: creates target GGUF variants for reference and candidate models.
+- `Serving Layer`: registers and serves models through local Ollama.
+- `Evaluation Layer`: runs inference, benchmark, and quality comparison workflows.
+- `Orchestration Layer`: executes end-to-end pipeline and generates summary pass/fail results.
+- `Reporting Layer`: writes benchmark, quality, summary, and timestamped logs for review.
 
 ### Prerequisites
 
-- macOS (Apple Silicon recommended)
 - Python 3.10+
 - `uv` (recommended) or `pip`
 - `git`
@@ -97,7 +70,6 @@ uv pip install -r requirements.txt
 
 Primary config: [`config/config.yaml`](config/config.yaml)
 
-Key sections:
 
 - `setup`: llama.cpp build paths + source model export settings
 - `paths`: model/report/log artifact locations
